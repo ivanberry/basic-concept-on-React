@@ -42,7 +42,16 @@ static getDerivedStateFromProps(props, state) {
 
 ### 什么时候需要衍生状态
 
-`getDerivedStateFromProps`存在的唯一理由就是：依据**props**变化更新组件状态。
+`getDerivedStateFromProps`存在的唯一理由就是：依据**props**变化更新组件状态。关于衍生状态的问题可以归于两类：
+
+- 来自props的无条件state更新
+- 当props，state不匹配时的state更新
+
+### 衍生状态使用可能导致的问题
+
+受控和非受控一般特指表单输入框，同时它们也用来描述组件数据的来源。数据来源于props的一般称为受控组件，因为组件的数据受父组件控制，数据仅存在与内部状态可以称为非受控组件，因为父组件不能直接修改它。
+
+关于衍生状态的最大误解就是混用了数据的受控与非受控。当衍生状态数据又通过`setState`更新时，这个数据的来源就不唯一了，就很有可能导致各种问题。
 
 
 
