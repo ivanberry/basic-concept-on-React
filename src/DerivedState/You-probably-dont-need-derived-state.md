@@ -23,6 +23,7 @@ static getDerivedStateFromProps(props, state) {
 	return null;
 }
 ```
+
 一种可能的办法就是将`prevProps`保存为本地状态。
 
 ```javascript
@@ -36,6 +37,7 @@ static getDerivedStateFromProps(props, state) {
 	};
 }
 ```
+
 但是，在state中镜像props常导致各位问题，所以当使用新版本中的`getDerivedStateFromProps`还是传统的`componentWillReceiveProps`都可能导致各种问题，应该使用以下正文的办法。
 
 在React长期版本中，`componentWillReciveProps`是唯一根据props变化而更新state，并不引发多余渲染的方法。16.3中新增了新的替代周期函数`getDerivedStateFromProps`，能更好完成类似的事情。再次同时，关于两个函数的使用，存在很多的误解和反模式。
@@ -52,39 +54,3 @@ static getDerivedStateFromProps(props, state) {
 受控和非受控一般特指表单输入框，同时它们也用来描述组件数据的来源。数据来源于props的一般称为受控组件，因为组件的数据受父组件控制，数据仅存在与内部状态可以称为非受控组件，因为父组件不能直接修改它。
 
 关于衍生状态的最大误解就是混用了数据的受控与非受控。当衍生状态数据又通过`setState`更新时，这个数据的来源就不唯一了，就很有可能导致各种问题。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
