@@ -1,4 +1,4 @@
-## 衍生状态
+# 衍生状态
 
 React16.4.0中修复了一些问题，其中就有关于衍生状态，生命周期函数中有一个在16中弃用了，是因为通过它做一些事情，使用不当很容易导致各种问题，我们后面说它`componentWillReceiveProps`，这边我们先说`getDerivedStateFromProps`。
 
@@ -53,4 +53,25 @@ static getDerivedStateFromProps(props, state) {
 
 受控和非受控一般特指表单输入框，同时它们也用来描述组件数据的来源。数据来源于props的一般称为受控组件，因为组件的数据受父组件控制，数据仅存在与内部状态可以称为非受控组件，因为父组件不能直接修改它。
 
-关于衍生状态的最大误解就是混用了数据的受控与非受控。当衍生状态数据又通过`setState`更新时，这个数据的来源就不唯一了，就很有可能导致各种问题。
+关于衍生状态的最大误解就是混用了数据的受控与非受控。**衍生状态数据值又通过`setState`更新**，这样一来数据的来源就不唯一了，就很有可能导致各种问题。
+
+#### 无限制的从prop复制数据到state
+
+**当props变化**时，`getDerivedStateFromProps`和`componentWillReceiveProps`才会执行。它两会在父组件任意次渲染时执行，而不管props是否跟之前不同。正因如此，无限制的从props复制值到state是不安全的，因为父组件的更新会使得state被覆盖。使得state更新会丢失。
+
+#### 当props变化时，重置state
+
+我们可以在仅当`prop.email`变化时才更新`state`:
+
+```javascript
+componentWillReceiveProps(nextProps) {
+  // Any time props.email changes, update state
+  if (nextProps.email !== this.props.email) {
+    this.setState({
+      email: nextProps.email
+    })
+  }
+}
+```
+
+上述办法是很大的改进了，组件只会在prop更新时才会重置组件state，但这种解决办法仍有不易察觉的问题存在。查看demo

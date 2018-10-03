@@ -32,13 +32,6 @@ export default class ExampleComponent extends React.Component {
     }
   }
 
-  //componentWillReceiveProps(nextProps) {
-  //if (nextProps.id !== this.props.id) {
-  //this.setState({externalData: null});
-  //this._loadAsyncData(nextProps.id);
-  //}
-  //}
-
   componentWillUnmount() {
     if (this._asyncRequest) {
       this._asyncRequest.cancle();

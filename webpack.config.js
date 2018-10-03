@@ -8,6 +8,9 @@ const htmlPlugin = new HtmlWebpackPlugin({
 
 module.exports = {
 	entry: path.resolve(__dirname, "src/index.js"),
+	output: {
+		publicPath: '/'
+	},
 	module: {
 		rules: [
 			{
@@ -34,13 +37,16 @@ module.exports = {
 			{
 				test: /\.(png|jpg|gif)$/,
 				use: [
-					 {
-					 	loader:'file-loader',
+					{
+						loader: 'file-loader',
 						options: {}
 					}
 				]
 			}
 		]
 	},
-	plugins: [htmlPlugin]
+	plugins: [htmlPlugin],
+	devServer: {
+		historyApiFallback: true
+	}
 }
