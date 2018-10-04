@@ -74,4 +74,91 @@ componentWillReceiveProps(nextProps) {
 }
 ```
 
-上述办法是很大的改进了，组件只会在prop更新时才会重置组件state，但这种解决办法仍有不易察觉的问题存在。查看demo
+上述办法是很大的改进了，组件只会在prop更新时才会重置组件state，但这种解决办法仍有不易察觉的问题存在。查看[demo](https://codesandbox.io/s/mz2lnkjkrx)
+
+这是设计的根本性缺陷，我们可以通过两种方式更好的达到我们的需求，而它们的本质都是对**任意数据源而言，必须使用唯一的组件来承载，并避免在其他组件中复制它。**
+
+#### 最佳实践
+
+1. 完全受控组件
+
+值是完全受控的，没有任何本地状态与props的冲突，这样我们甚至可以更加简化为函数组件。
+
+```javascript
+function EmailInput(props) {
+	return <Input value={props.email} onChange={props.onChange} />;
+}
+```
+上述的方式，能已更简单的形式实现我们的需求，但是存在一个小问题，假如我们需要‘草稿’的特性，我们只能从父组件的角度来手动实现。详情查看[demo](https://codesandbox.io/s/7154w1l551);
+
+2. 完全非受控组件
+
+另一种方式就是使得我们的组件是彻底的非受控组件，这种情况下，我们仅利用`propr`来获取组件的初始值，忽略掉prop后续的变化。
+
+```javascript
+class EmailInput extends React.Component {
+	state = {
+		email: this.props.defaultEmail
+	}
+
+	handleChange = (evt) => {
+		this.setState = {
+		email: evt.target.value
+		}
+	}
+
+	render(
+		return <input value={this.state.email} onChange={this.handleChange} />
+	)
+}
+```
+
+我们可以通过React动态渲染中常用到的`key`值，使当`key`不同时，`React`会新建组件实例，而不是直接修改。
+
+```javascript
+<EmailInput
+	defaultEmail={this.props.user.emial}
+	key={this.props.user.id}
+/>
+```
+
+每次切换为不同的用户，因为`key`的不同，`React`会新建新的`EmailInput`组件实例，从而避免组件见数据污染，详情参见[demo](https://codesandbox.io/s/6v1znlxyxn)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
