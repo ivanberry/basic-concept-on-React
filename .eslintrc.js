@@ -7,11 +7,11 @@ module.exports = {
     "document": true,
   },
   "extends": "eslint:recommended",
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "plugins": [
@@ -20,7 +20,7 @@ module.exports = {
   "rules": {
     "indent": [
       "error",
-      "space"
+      "tab"
     ],
     "linebreak-style": [
       "error",
