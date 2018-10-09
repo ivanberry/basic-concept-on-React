@@ -1,4 +1,4 @@
-import React, { Component, Fragment, PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 
 // Impelement as PureComponent
 class Timer extends PureComponent {
@@ -15,7 +15,7 @@ class Timer extends PureComponent {
 				this.setState(prevState => ({
 					count: prevState.count + 1
 				})),
-			1000
+			3000
 		);
 	}
 

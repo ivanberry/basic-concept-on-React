@@ -1,11 +1,11 @@
 
 
-function ContorlledEmailInput (props)  {
-	return <input value={props.email} onChange={props.onChange} />
+function ContorlledEmailInput(props) {
+	return <input value={props.email} onChange={props.onChange} />;
 }
 
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 
 class UserEmail extends Component {
@@ -21,11 +21,11 @@ class UserEmail extends Component {
 	}
 
 
-	render () {
+	render() {
 		return (
 			<div>
 				<p>受控组件</p>
-				<ContorlledEmailInput email={this.state.draftEmail} onChange={this.handleChange}  />
+				<ContorlledEmailInput email={this.state.draftEmail} onChange={this.handleChange} />
 			</div>
 		)
 	}

@@ -55,9 +55,9 @@ static getDerivedStateFromProps(props, state) {
 
 关于衍生状态的最大误解就是混用了数据的受控与非受控。**衍生状态数据值又通过`setState`更新**，这样一来数据的来源就不唯一了，就很有可能导致各种问题。
 
-#### 无限制的从prop复制数据到state
+#### 反模式：无限制的从prop复制数据到state
 
-**当props变化**时，`getDerivedStateFromProps`和`componentWillReceiveProps`才会执行。它两会在父组件任意次渲染时执行，而不管props是否跟之前不同。正因如此，无限制的从props复制值到state是不安全的，因为父组件的更新会使得state被覆盖。使得state更新会丢失。
+**当props变化**时，`getDerivedStateFromProps`和`componentWillReceiveProps`才会执行。它两会在父组件任意次渲染时执行，而不管props是否跟之前不同。正因如此，无限制的从props复制值到state是不安全的，因为父组件的更新会使得state被覆盖，使得state更新会丢失。
 
 #### 当props变化时，重置state
 
@@ -89,6 +89,7 @@ function EmailInput(props) {
 	return <Input value={props.email} onChange={props.onChange} />;
 }
 ```
+
 上述的方式，能已更简单的形式实现我们的需求，但是存在一个小问题，假如我们需要‘草稿’的特性，我们只能从父组件的角度来手动实现。详情查看[demo](https://codesandbox.io/s/7154w1l551);
 
 2. 完全非受控组件
@@ -122,7 +123,13 @@ class EmailInput extends React.Component {
 />
 ```
 
-每次切换为不同的用户，因为`key`的不同，`React`会新建新的`EmailInput`组件实例，从而避免组件见数据污染，详情参见[demo](https://codesandbox.io/s/6v1znlxyxn)
+每次切换为不同的用户，因为`key`的不同，`React`会新建新的`EmailInput`组件实例，从而避免组件见数据污染，详情参见[demo](http://localhost:8080/full-uncontrol-input)
+
+### 总结
+
+设计一个组件时，我们必须非常明确组件数据是受控还是非受控。避免‘镜像'`props`值到组件`state`，而对于组件’草稿‘状态的值也提升到父级组件中，这样可以有更加明确的单向数据流，从而避免数据源不唯一而导致的问题。
+
+
 
 
 
